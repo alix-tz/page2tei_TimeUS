@@ -10,7 +10,4 @@ Transformations meet [Time Us Project](http://timeusage.paris.inria.fr/mediawiki
 - transforming non-default tags into TEI-conform tags
 - creating `rendition="multiline"` attributes in all semantic tags to signal tags extending on several lines.
 
-
-
-
-
+## See [our guide](https://github.com/alix-tz/page2tei_TimeUS/wiki/Guide)
