@@ -42,11 +42,25 @@
                 </fileDesc>
             </teiHeader>
             <xsl:if test="not($debug)">
-                <xsl:apply-templates select="tu:PageGrp" mode="facsimile"/>
+                <xsl:choose>
+                    <xsl:when test="./child::node() = p:Page">
+                        <xsl:apply-templates select="p:Page" mode="facsimile"/>
+                    </xsl:when>
+                    <xsl:when test="./child::node() = tu:PageGrp">
+                        <xsl:apply-templates select="tu:PageGrp" mode="facsimile"/>
+                    </xsl:when>
+                </xsl:choose>
             </xsl:if>
             <text>
                 <body>
-                    <xsl:apply-templates select="tu:PageGrp" mode="text"/>
+                    <xsl:choose>
+                        <xsl:when test="./child::node() = p:Page">
+                            <xsl:apply-templates select="p:Page" mode="text"/>
+                        </xsl:when>
+                        <xsl:when test="./child::node() = tu:PageGrp">
+                            <xsl:apply-templates select="tu:PageGrp" mode="text"/>
+                        </xsl:when>
+                    </xsl:choose>
                 </body>
             </text>
         </TEI>
@@ -153,7 +167,7 @@
     </xd:doc>
     <!-- Templates for PAGE, text -->
     <xsl:template match="p:Page" mode="text">
-        <xsl:variable name="numCurr" select="@id"/>
+        <xsl:variable name="numCurr" select="@tu:id"/>
 
         <pb facs="#facs_{$numCurr}" n="{$numCurr}"/>
         <xsl:apply-templates select="p:TextRegion | p:SeparatorRegion | p:GraphicRegion" mode="text">
