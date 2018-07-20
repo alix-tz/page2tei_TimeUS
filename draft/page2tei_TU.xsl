@@ -35,31 +35,21 @@
             <teiHeader>
                 <fileDesc>
                     <titleStmt>
-                        <title><xsl:value-of select="p:Metadata/tu:title"/>, page <xsl:value-of select="p:Metadata/tu:pagenumber"/> - Transcription</title>
+                        <!-- <title/> -->
                         <editor>Manuela Martini</editor>
-                        <respStmt><name><xsl:value-of select="p:Metadata/tu:uploader"/></name>, <resp>créateur⋅rice du document Transkribus (TRP).</resp></respStmt>
                     </titleStmt>
                     <publicationStmt>
-                        <bibl><publisher>tranScriptorium</publisher></bibl>
-                        <bibl><publisher>Time Us</publisher> (<date>2017-2020</date>) : http://timeusage.paris.inria.fr/mediawiki/index.php/Accueil</bibl>
+                        <publisher>Time Us : http://timeusage.paris.inria.fr/mediawiki/index.php/Accueil</publisher>
+                        <date>2017-2020</date>
                     </publicationStmt>
-                    <sourceDesc>
-                        <p><xsl:value-of select="p:Metadata/tu:desc"/></p>
-                    </sourceDesc>
+                    <!-- <sourceDesc/> -->
                 </fileDesc>
-                <xsl:if test="count(p:Metadata/tu:language) &gt; 0">
-                    <profileDesc>
-                        <langUsage>
-                            <xsl:for-each select="p:Metadata/tu:language">
-                                <language><xsl:value-of select="."/></language>
-                            </xsl:for-each>
-                        </langUsage>
-                    </profileDesc>
-                </xsl:if>                
                 <revisionDesc>
-                    <change type="Created"><xsl:value-of select="p:Metadata/p:Created"/></change>
-                    <change type="LastChange"><xsl:value-of select="p:Metadata/p:LastChange"/></change>
-                    <change type="ToTEI"><xsl:value-of select="current-dateTime()"/></change>
+                    <!-- <change type="Created"/> -->
+                    <!-- <change type="LastChange"/> -->
+                    <change type="ToTEI">
+                        <xsl:value-of select="current-date()"/>
+                    </change>
                 </revisionDesc>
             </teiHeader>
             <xsl:if test="not($debug)">
