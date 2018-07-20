@@ -7,8 +7,7 @@
     xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:local="local"
     xmlns:xstring="https://github.com/dariok/XStringUtils" exclude-result-prefixes="#all"
-    xmlns:tu="timeUs"
-    version="3.0">
+    xmlns:tu="timeUs" version="3.0">
 
     <xd:doc scope="stylesheet">
         <xd:desc>
@@ -35,18 +34,40 @@
         <TEI>
             <teiHeader>
                 <fileDesc>
-                    <titleStmt/>
-                    <!-- need to use another method/document to get (good) metadata -->
-                    <publicationStmt/>
-                    <sourceDesc/>
+                    <titleStmt>
+                        <title><xsl:value-of select="p:Metadata/tu:title"/>, page <xsl:value-of select="p:Metadata/tu:pagenumber"/> - Transcription</title>
+                        <editor>Manuela Martini</editor>
+                        <respStmt><name><xsl:value-of select="p:Metadata/tu:uploader"/></name>, <resp>créateur⋅rice du document Transkribus (TRP).</resp></respStmt>
+                    </titleStmt>
+                    <publicationStmt>
+                        <bibl><publisher>tranScriptorium</publisher></bibl>
+                        <bibl><publisher>Time Us</publisher> (<date>2017-2020</date>) : http://timeusage.paris.inria.fr/mediawiki/index.php/Accueil</bibl>
+                    </publicationStmt>
+                    <sourceDesc>
+                        <p><xsl:value-of select="p:Metadata/tu:desc"/></p>
+                    </sourceDesc>
                 </fileDesc>
+                <xsl:if test="count(p:Metadata/tu:language) &gt; 0">
+                    <profileDesc>
+                        <langUsage>
+                            <xsl:for-each select="p:Metadata/tu:language">
+                                <language><xsl:value-of select="."/></language>
+                            </xsl:for-each>
+                        </langUsage>
+                    </profileDesc>
+                </xsl:if>                
+                <revisionDesc>
+                    <change type="Created"><xsl:value-of select="p:Metadata/p:Created"/></change>
+                    <change type="LastChange"><xsl:value-of select="p:Metadata/p:LastChange"/></change>
+                    <change type="ToTEI"><xsl:value-of select="current-dateTime()"/></change>
+                </revisionDesc>
             </teiHeader>
             <xsl:if test="not($debug)">
                 <xsl:choose>
-                    <xsl:when test="./child::node() = p:Page">
+                    <xsl:when test="p:Page">
                         <xsl:apply-templates select="p:Page" mode="facsimile"/>
                     </xsl:when>
-                    <xsl:when test="./child::node() = tu:PageGrp">
+                    <xsl:when test="tu:PageGrp">
                         <xsl:apply-templates select="tu:PageGrp" mode="facsimile"/>
                     </xsl:when>
                 </xsl:choose>
@@ -54,10 +75,10 @@
             <text>
                 <body>
                     <xsl:choose>
-                        <xsl:when test="./child::node() = p:Page">
+                        <xsl:when test="p:Page">
                             <xsl:apply-templates select="p:Page" mode="text"/>
                         </xsl:when>
-                        <xsl:when test="./child::node() = tu:PageGrp">
+                        <xsl:when test="tu:PageGrp">
                             <xsl:apply-templates select="tu:PageGrp" mode="text"/>
                         </xsl:when>
                     </xsl:choose>
@@ -507,27 +528,24 @@
                 </measure>
             </xsl:when>
             <xsl:when test="@type = 'TU_occupation'">
-                <choice>
-                    <xsl:call-template name="attr">
-                        <xsl:with-param name="attr" select="map:keys($custom)"/>
-                        <xsl:with-param name="custom" select="$custom"/>
-                    </xsl:call-template>
-                    <orig>
-                        <rs>
-                            <xsl:attribute name="type">occupation</xsl:attribute>
+                <rs>
+                    <xsl:attribute name="type">occupation</xsl:attribute>
+                    <choice>
+                        <xsl:call-template name="attr">
+                            <xsl:with-param name="attr" select="map:keys($custom)"/>
+                            <xsl:with-param name="custom" select="$custom"/>
+                        </xsl:call-template>
+                        <orig>
                             <xsl:call-template name="elem">
                                 <xsl:with-param name="elem" select="$elem"/>
                             </xsl:call-template>
-                        </rs>
-                    </orig>
-                    <reg>
-                        <rs>
-                            <xsl:attribute name="type">occupation</xsl:attribute>
+                        </orig>
+                        <reg>
                             <xsl:value-of
                                 select="replace(map:get($custom, 'normal'), '\\u0020', ' ')"/>
-                        </rs>
-                    </reg>
-                </choice>
+                        </reg>
+                    </choice>
+                </rs>
             </xsl:when>
             <xsl:when test="@type = 'TU_status'">
                 <rs>
@@ -622,7 +640,7 @@
             select="following-sibling::local:m[@pos = 'e' and @o = $o]/following-sibling::node()[1][self::text()]"
         />
     </xsl:template>
-    
+
     <xd:doc>
         <xd:desc>TIME US - Create attributes</xd:desc>
         <xd:param name="attr"/>
@@ -635,7 +653,7 @@
             <xsl:if test=". != 'length' and . != ''">
                 <xsl:choose>
                     <xsl:when test=". = 'continued'">
-                        <xsl:attribute name="rend">multiline</xsl:attribute>                    
+                        <xsl:attribute name="rend">multiline</xsl:attribute>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:attribute name="{.}">
@@ -646,7 +664,7 @@
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
-    
+
     <xd:doc>
         <xd:desc>Process what's between a pair of local:m</xd:desc>
         <xd:param name="elem"/>
