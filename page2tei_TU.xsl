@@ -35,18 +35,23 @@
             <teiHeader>
                 <fileDesc>
                     <titleStmt>
-                        <title><xsl:value-of select="p:Metadata/tu:title"/>, page <xsl:value-of select="p:Metadata/tu:pagenumber"/> - Transcription</title>
+                        <title><xsl:value-of select="p:Metadata/tu:title"/><xsl:choose>
+                            <xsl:when test="p:Page">, page <xsl:value-of select="p:Metadata/tu:pagenumber"/></xsl:when>
+                        </xsl:choose> - Transcription</title>
                         <editor>Manuela Martini</editor>
                         <respStmt><name><xsl:value-of select="p:Metadata/tu:uploader"/></name>, <resp>créateur⋅rice du document Transkribus (TRP).</resp></respStmt>
                     </titleStmt>
                     <publicationStmt>
-                        <bibl><publisher>tranScriptorium</publisher></bibl>
                         <bibl><publisher>Time Us</publisher> (<date>2017-2020</date>) : http://timeusage.paris.inria.fr/mediawiki/index.php/Accueil</bibl>
                     </publicationStmt>
                     <sourceDesc>
                         <p><xsl:value-of select="p:Metadata/tu:desc"/></p>
                     </sourceDesc>
                 </fileDesc>
+                <encodingDesc>
+                    <projectDesc>TIME US est un projet ANR dont le but est de reconstituer les rémunérations et les budgets temps des travailleur⋅ses du textile dans quatre villes industrielles française (Lille, Paris, Lyon, Marseille) dans une perspective européenne et de longue durée. Il réunit une équipe pluridisciplinaire d'historiens des techniques, de l'économie et du travail, des spécialistes du traitement automatique des langues et des sociologues spécialistes des budgets familiaux. Il vise à donner des clés pour comprendre le gender gap en analysant les mutations du travail et la répartition du temps et des tâches au sein des ménages pendant la première industrialisation. Pour ce faire, le projet met en place une action de transcription et d'annotation de documents d'archives datés de la fin du XVIIe au début du XXe siècle.</projectDesc>
+                    <editorialDecl>Les transcriptions et leur annotations sont réalisées à l'aide de la plate-forme Transkribus.</editorialDecl>
+                </encodingDesc>
                 <xsl:if test="count(p:Metadata/tu:language) &gt; 0">
                     <profileDesc>
                         <langUsage>
@@ -506,6 +511,7 @@
             </xsl:when>
             <xsl:when test="@type = 'TU_montant'">
                 <measure>
+                    <xsl:attribute name="type">sum</xsl:attribute>
                     <xsl:call-template name="attr">
                         <xsl:with-param name="attr" select="map:keys($custom)"/>
                         <xsl:with-param name="custom" select="$custom"/>
