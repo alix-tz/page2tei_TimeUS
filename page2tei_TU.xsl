@@ -8,7 +8,7 @@
     xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:local="local"
     xmlns:xstring="https://github.com/dariok/XStringUtils" exclude-result-prefixes="#all"
     xmlns:tu="timeUs" 
-    xmlns:temp="temporary" version="3.0">
+    xmlns:temp="temporary" version="2.0">
 
     <xd:doc scope="stylesheet">
         <xd:desc>
