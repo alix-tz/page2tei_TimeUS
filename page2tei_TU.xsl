@@ -74,43 +74,15 @@
                     <change type="ToTEI"><xsl:value-of select="current-dateTime()"/></change>
                 </revisionDesc>
             </teiHeader>
-            <!-- NEED CHANGE : only Page as starting bloc -->
             <xsl:if test="not($debug)">
-                <xsl:choose>
-                    <xsl:when test="p:Page">
-                        <xsl:apply-templates select="p:Page" mode="facsimile"/>
-                    </xsl:when>
-                    <!-- NNED CHANGE remove this option -->
-                    <xsl:when test="tu:PageGrp">
-                        <xsl:apply-templates select="tu:PageGrp" mode="facsimile"/>
-                    </xsl:when>
-                </xsl:choose>
+                <xsl:apply-templates select="p:Page" mode="facsimile"/>
             </xsl:if>
             <text>
                 <body>
-                    <!-- NEED CHANGE only Page as starting block -->
-                    <xsl:choose>
-                        <xsl:when test="p:Page">
-                            <xsl:apply-templates select="p:Page" mode="text"/>
-                        </xsl:when>
-                        <!-- NEED CHANGE remove this option -->
-                        <xsl:when test="tu:PageGrp">
-                            <xsl:apply-templates select="tu:PageGrp" mode="text"/>
-                        </xsl:when>
-                    </xsl:choose>
+                    <xsl:apply-templates select="p:Page" mode="text"></xsl:apply-templates>
                 </body>
             </text>
         </TEI>
-    </xsl:template>
-
-
-    <!-- NEED CHANGE -->
-    <!-- Templates for PAGE, facsimile -->
-    <xd:doc>
-        <xd:p>Create tei:facsimile</xd:p>
-    </xd:doc>
-    <xsl:template match="tu:PageGrp" mode="fascimile">
-        <xsl:apply-templates select="p:Page" mode="facsimile"/>
     </xsl:template>
 
     <xd:doc>
@@ -189,14 +161,6 @@
             </xsl:if>
 
         </zone>
-    </xsl:template>
-
-    <!-- NEED CHANGE -->
-    <xd:doc>
-        <xd:p>create page content</xd:p>
-    </xd:doc>
-    <xsl:template match="tu:PageGrp" mode="text">
-        <xsl:apply-templates select="p:Page" mode="text"/>
     </xsl:template>
 
     <xd:doc>
