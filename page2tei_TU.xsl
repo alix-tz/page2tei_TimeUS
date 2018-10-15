@@ -7,7 +7,8 @@
     xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:local="local"
     xmlns:xstring="https://github.com/dariok/XStringUtils" exclude-result-prefixes="#all"
-    xmlns:tu="timeUs" version="3.0">
+    xmlns:tu="timeUs" 
+    xmlns:temp="temporary" version="3.0">
 
     <xd:doc scope="stylesheet">
         <xd:desc>
