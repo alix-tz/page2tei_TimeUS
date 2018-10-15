@@ -56,7 +56,10 @@
                 <encodingDesc>
                     <!-- Time Us -->
                     <projectDesc>TIME US est un projet ANR dont le but est de reconstituer les rémunérations et les budgets temps des travailleur⋅ses du textile dans quatre villes industrielles française (Lille, Paris, Lyon, Marseille) dans une perspective européenne et de longue durée. Il réunit une équipe pluridisciplinaire d'historiens des techniques, de l'économie et du travail, des spécialistes du traitement automatique des langues et des sociologues spécialistes des budgets familiaux. Il vise à donner des clés pour comprendre le gender gap en analysant les mutations du travail et la répartition du temps et des tâches au sein des ménages pendant la première industrialisation. Pour ce faire, le projet met en place une action de transcription et d'annotation de documents d'archives datés de la fin du XVIIe au début du XXe siècle.</projectDesc>
-                    <editorialDecl>Les transcriptions et leur annotations sont réalisées à l'aide de la plate-forme Transkribus.</editorialDecl>
+                    <editorialDecl>
+                        <p>Les transcriptions et leur annotations sont réalisées à l'aide de la plate-forme Transkribus.</p>
+                        <p>Statut de la transcription lors de son export : "<xsl:value-of select="p:Metadata/temp:tsStatus"/>".</p>
+                    </editorialDecl>
                     <!-- fin Time Us -->
                 </encodingDesc>
                 <xsl:if test="count(p:Metadata/temp:language) &gt; 0">
