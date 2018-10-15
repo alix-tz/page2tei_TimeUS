@@ -36,27 +36,33 @@
             <teiHeader>
                 <fileDesc>
                     <titleStmt>
-                        <title><xsl:value-of select="p:Metadata/tu:title"/><xsl:choose>
-                            <xsl:when test="p:Page">, page <xsl:value-of select="p:Metadata/tu:pagenumber"/></xsl:when>
+                        <title><xsl:value-of select="p:Metadata/temp:title"/><xsl:choose>
+                            <xsl:when test="p:Page">, page <xsl:value-of select="p:Metadata/temp:pagenumber"/></xsl:when>
                         </xsl:choose> - Transcription</title>
+                        <!-- Time Us -->
                         <editor>Manuela Martini</editor>
-                        <respStmt><name><xsl:value-of select="p:Metadata/tu:uploader"/></name>, <resp>créateur⋅rice du document Transkribus (TRP).</resp></respStmt>
+                        <!-- fin Time Us -->
+                        <respStmt><name><xsl:value-of select="p:Metadata/temp:uploader"/></name>, <resp>créateur⋅rice du document Transkribus (TRP).</resp></respStmt>
                     </titleStmt>
                     <publicationStmt>
+                        <!-- Time Us -->
                         <bibl><publisher>Time Us</publisher> (<date>2017-2020</date>) : http://timeusage.paris.inria.fr/mediawiki/index.php/Accueil</bibl>
+                        <!-- fin Time Us -->
                     </publicationStmt>
                     <sourceDesc>
-                        <p><xsl:value-of select="p:Metadata/tu:desc"/></p>
+                        <p><xsl:value-of select="p:Metadata/temp:desc"/></p>
                     </sourceDesc>
                 </fileDesc>
                 <encodingDesc>
+                    <!-- Time Us -->
                     <projectDesc>TIME US est un projet ANR dont le but est de reconstituer les rémunérations et les budgets temps des travailleur⋅ses du textile dans quatre villes industrielles française (Lille, Paris, Lyon, Marseille) dans une perspective européenne et de longue durée. Il réunit une équipe pluridisciplinaire d'historiens des techniques, de l'économie et du travail, des spécialistes du traitement automatique des langues et des sociologues spécialistes des budgets familiaux. Il vise à donner des clés pour comprendre le gender gap en analysant les mutations du travail et la répartition du temps et des tâches au sein des ménages pendant la première industrialisation. Pour ce faire, le projet met en place une action de transcription et d'annotation de documents d'archives datés de la fin du XVIIe au début du XXe siècle.</projectDesc>
                     <editorialDecl>Les transcriptions et leur annotations sont réalisées à l'aide de la plate-forme Transkribus.</editorialDecl>
+                    <!-- fin Time Us -->
                 </encodingDesc>
-                <xsl:if test="count(p:Metadata/tu:language) &gt; 0">
+                <xsl:if test="count(p:Metadata/temp:language) &gt; 0">
                     <profileDesc>
                         <langUsage>
-                            <xsl:for-each select="p:Metadata/tu:language">
+                            <xsl:for-each select="p:Metadata/temp:language">
                                 <language><xsl:value-of select="."/></language>
                             </xsl:for-each>
                         </langUsage>
@@ -68,11 +74,13 @@
                     <change type="ToTEI"><xsl:value-of select="current-dateTime()"/></change>
                 </revisionDesc>
             </teiHeader>
+            <!-- NEED CHANGE : only Page as starting bloc -->
             <xsl:if test="not($debug)">
                 <xsl:choose>
                     <xsl:when test="p:Page">
                         <xsl:apply-templates select="p:Page" mode="facsimile"/>
                     </xsl:when>
+                    <!-- NNED CHANGE remove this option -->
                     <xsl:when test="tu:PageGrp">
                         <xsl:apply-templates select="tu:PageGrp" mode="facsimile"/>
                     </xsl:when>
@@ -80,10 +88,12 @@
             </xsl:if>
             <text>
                 <body>
+                    <!-- NEED CHANGE only Page as starting block -->
                     <xsl:choose>
                         <xsl:when test="p:Page">
                             <xsl:apply-templates select="p:Page" mode="text"/>
                         </xsl:when>
+                        <!-- NEED CHANGE remove this option -->
                         <xsl:when test="tu:PageGrp">
                             <xsl:apply-templates select="tu:PageGrp" mode="text"/>
                         </xsl:when>
@@ -94,7 +104,7 @@
     </xsl:template>
 
 
-
+    <!-- NEED CHANGE -->
     <!-- Templates for PAGE, facsimile -->
     <xd:doc>
         <xd:p>Create tei:facsimile</xd:p>
@@ -107,8 +117,8 @@
         <xd:p>Create tei:surface and tei:graphic</xd:p>
     </xd:doc>
     <xsl:template match="p:Page" mode="facsimile">
-        <xsl:variable name="url" select="@tu:url"/>
-        <xsl:variable name="numCurr" select="@tu:id"/>
+        <xsl:variable name="url" select="@temp:urltoimg"/>
+        <xsl:variable name="numCurr" select="@temp:id"/>
         <xsl:variable name="imageName" select="@imageFilename"/>
         <xsl:variable name="type" select="substring-after(@imageFilename, '.')"/>
 
@@ -181,6 +191,7 @@
         </zone>
     </xsl:template>
 
+    <!-- NEED CHANGE -->
     <xd:doc>
         <xd:p>create page content</xd:p>
     </xd:doc>
